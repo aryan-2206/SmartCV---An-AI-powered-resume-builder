@@ -1,44 +1,59 @@
 export default function JakesClassic({ data }) {
   return (
-    <div style={{ background: "white", padding: "1rem" }}>
-      
-      {/* Header */}
-      <h1>{data.name}</h1>
-      <p>{data.title}</p>
+    <div
+      style={{
+        fontFamily: "Times New Roman, serif",
+        fontSize: "12px",
+        lineHeight: "1.4",
+        color: "#000",
+      }}
+    >
+      {/* HEADER */}
+      <div style={{ textAlign: "center", marginBottom: "8px" }}>
+        <h1 style={{ fontSize: "20px", margin: 0 }}>{data.name}</h1>
+        <p style={{ margin: 0 }}>{data.title}</p>
+      </div>
 
-      {/* Summary */}
+      <hr style={{ border: "0.5px solid black", margin: "6px 0" }} />
+
+      {/* SUMMARY */}
       <section>
-        <h2>Summary</h2>
+        <h2 style={sectionTitle}>Summary</h2>
         <p>{data.summary}</p>
       </section>
 
-      {/* Experience */}
+      {/* EXPERIENCE */}
       <section>
-        <h2>Experience</h2>
+        <h2 style={sectionTitle}>Experience</h2>
         {data.experience.map((exp, i) => (
-          <div key={i}>
-            <strong>{exp.role}</strong> – {exp.company}
-            <p>{exp.year}</p>
+          <div key={i} style={{ marginBottom: "4px" }}>
+            <strong>{exp.role}</strong>, {exp.company}
+            <div style={{ fontStyle: "italic" }}>{exp.year}</div>
           </div>
         ))}
       </section>
 
-      {/* Education */}
+      {/* EDUCATION */}
       <section>
-        <h2>Education</h2>
+        <h2 style={sectionTitle}>Education</h2>
         {data.education.map((edu, i) => (
-          <p key={i}>
-            {edu.degree}, {edu.institute}
-          </p>
+          <div key={i}>
+            <strong>{edu.degree}</strong>, {edu.institute}
+          </div>
         ))}
       </section>
 
-      {/* Skills */}
+      {/* SKILLS */}
       <section>
-        <h2>Skills</h2>
+        <h2 style={sectionTitle}>Skills</h2>
         <p>{data.skills.join(", ")}</p>
       </section>
-
     </div>
   );
 }
+
+const sectionTitle = {
+  fontSize: "14px",
+  marginBottom: "2px",
+  borderBottom: "1px solid black",
+};
