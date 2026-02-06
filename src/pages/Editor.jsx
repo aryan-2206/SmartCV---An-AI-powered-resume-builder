@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import Sidebar from "./componenets/Sidebar";
 import EditorPanel from "./componenets/EditorPanel";
 import PreviewPanel from "./componenets/PreviewPanel";
-import "./App.css";
+import "../App.css";
 import "./componenets/Editor.css";
 
 const Editor = () => {

@@ -2,7 +2,7 @@
 //Section card is made collapsible using isOpen
 
 import "./Editor.css";
-import "../App.css";
+import "../../App.css";
 import { useState } from "react";
 
 // Reusable section wrapper

@@ -3,7 +3,7 @@
 
 import SectionCard from "./SectionCard";
 import "./Editor.css";
-import "../App.css";
+import "../../App.css";
 
 // Panel receives: resumeData -> current state, setResumeData -> function to update state
 
