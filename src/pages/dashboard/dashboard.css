@@ -1,4 +1,4 @@
-/* The main wrapper */
+/* --- MAIN NAVBAR WRAPPER --- */
 .navbarDashboard {
   position: fixed; 
   top: 15px;            
@@ -13,7 +13,7 @@
   border-radius: 20px; 
   border: 1px solid rgba(245, 158, 11, 0.4);
   
-  /* Initial Shadow */
+  /* Initial Golden Shadow */
   box-shadow: 
     0 10px 15px -10px rgba(245, 158, 11, 0.7), 
     0 20px 40px -20px rgba(245, 158, 11, 0.4);
@@ -22,29 +22,20 @@
   align-items: center; 
   z-index: 9999; 
   box-sizing: border-box; 
-  
-  /* Transition for smooth light effect */
   transition: all 0.3s ease-in-out;
 }
 
-/* --- LIGHT EFFECT ON HOVER --- */
+/* NAVBAR HOVER LIGHT EFFECT */
 .navbarDashboard:hover {
-  /* Slightly light up the background */
   background: rgba(12, 20, 45, 0.5); 
-  
-  /* Brighten the border to make it "glow" */
   border-color: rgba(245, 158, 11, 0.8);
-  
-  /* Intensify the golden glow using your specific login page colors */
   box-shadow: 
     0 0 20px rgba(245, 158, 11, 0.3), 
     0 10px 30px rgba(245, 158, 11, 0.5), 
     0 20px 60px rgba(245, 158, 11, 0.2);
-  /* Optional: subtle lift to feel more interactive */
   transform: translateX(-50%) translateY(-1px);
 }
 
-/* The inner container */
 .nav-containerDashboard {
   width: 100%;
   padding: 0 30px; 
@@ -53,6 +44,7 @@
   align-items: center; 
 }
 
+/* --- LOGO --- */
 .logoDashboard {
   font-size: 1.6rem;
   font-weight: 700;
@@ -68,24 +60,23 @@
   transition: text-shadow 0.3s ease;
 }
 
-/* Make the logo part of the light effect */
 .navbarDashboard:hover .logoDashboard span {
   text-shadow: 0 0 10px rgba(255, 157, 0, 0.6);
 }
 
+/* --- LOGIN BUTTON --- */
 .login-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 0 6px 0;
   height: 40px; 
-  margin: 0; /* Resetting margin to ensure perfect vertical centering */
   padding: 0 25px;
   background: linear-gradient(90deg, #00b4d8, #00e5ff);
   color: white;
   border: none;
   border-radius: 12px; 
   font-weight: 600;
-  line-height: 1; 
   cursor: pointer;
   box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
   transition: all 0.3s ease;
@@ -93,5 +84,123 @@
 
 .login-btn:hover {
   box-shadow: 0 0 25px rgba(0, 229, 255, 0.6);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+}
+
+/* --- USER PROFILE SECTION --- */
+.user-profile-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 50px;
+  transition: background 0.2s ease;
+}
+
+.user-profile-nav:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.user-name-label {
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* THE GOLD CIRCLE */
+.profile-circle-container {
+  width: 42px !important;
+  height: 42px !important;
+  background-color: #f59e0b !important; 
+  border-radius: 50%;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 2px solid white;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.8);
+  position: relative;
+  overflow: hidden; /* Back to hidden to keep the image/svg neat */
+  z-index: 10;
+  flex-shrink: 0; /* Prevents circle from squishing on small screens */
+}
+
+/* INTERNAL ICON/IMAGE STYLES */
+.nav-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-circle-container svg {
+  display: block;
+  stroke: #000000; /* Dark stroke for contrast on gold */
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.2));
+}
+
+.fallback-icon-text, .force-visible-text {
+  color: #000000 !important;
+  font-size: 18px !important;
+  font-weight: 800 !important;
+  display: block !important;
+  line-height: 1;
+  font-family: Arial, sans-serif;
+}
+
+/* Container for hover detection */
+.user-profile-wrapper {
+  position: relative;
+  padding-bottom: 10px; /* Bridge the gap between icon and menu */
+}
+
+/* The actual dropdown menu */
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 140px;
+  background: rgba(12, 20, 45, 0.95); /* Darker glass for readability */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  
+  /* Initial hidden state */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 10000;
+}
+
+/* Show dropdown on hover */
+.user-profile-wrapper:hover .profile-dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Dropdown items (Logout button) */
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-family: 'Poppins', sans-serif;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(239, 68, 68, 0.2); /* Subtle red tint for logout */
+  color: #ff4d4d;
+}
+
+.dropdown-item svg {
+  stroke: currentColor;
 }

@@ -20,7 +20,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, formData.email, formData.password);
       // No alert needed, just go
-      navigate('/dashboard'); 
+      navigate('/'); 
     } catch (error) {
       alert("Invalid Email or Password");
       setIsLoggingIn(false); // Unlock if it fails
@@ -30,7 +30,7 @@ const Login = () => {
  const handleGoogleSignIn = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      navigate('/dashboard');
+      navigate('/');
     } catch (error) {
       // If user closes the popup, just ignore it.
       if (error.code !== 'auth/popup-closed-by-user') {
