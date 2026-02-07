@@ -8,14 +8,14 @@ const ResumeContext = createContext();
 export const ResumeProvider = ({children}) => {
 
     const [resumeData, setResumeData] = useState({
-        name: "",
-        title: "",
-        email: "",
-        phone: "",
-        location: "",
-        linkedIn: "",
-        github: "",
-        summary: "",
+        name: "Name",
+        title: "Professional Title",
+        email: "Email",
+        phone: "Phone",
+        location: "Location (City, Country)",
+        linkedIn: "LinkedIn URL",
+        github: "GitHub URL",
+        summary: "This is a professional summary that highlights key acheivements and career goals.",
         experience: [{
             role: "",
             company: "",
@@ -24,21 +24,21 @@ export const ResumeProvider = ({children}) => {
             description: [],
         }],
         education: [{
-            institute: "",
-            degree: "",
-            location: "",
-            year: "",
-            gpa: "",
-            honors: "",
+            institute: "Name of Institute",
+            degree: "Degree",
+            location: "Location",
+            year: "Year of Graduation",
+            gpa: "GPA",
+            honors: "Honors",
         }],
         projects: [{
-            name: "",
-            year: "",
-            description: "",
-            tech: [],
+            name: "Name of Project",
+            year: "Year",
+            description: "Write a short description of your project here",
+            tech: ['Tech stack used'],
         }],
-        skills: [],
-        certifications: [],
+        skills: ['Your skills'],
+        certifications: ['Your sertifications'],
         customSections: []
     });
 
