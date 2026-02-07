@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import ProjectChoice from "./pages/ProjectChoice";
 import TemplateSelect from "./pages/TemplateSelect";
 import Dashboard from "./pages/dashboard/Dashboard";
+import { ResumeProvider } from "./pages/componenets/ResumeContext";
 import Editor from "./pages/Editor";
 
 import "./styles/workspace.css";
@@ -27,16 +28,16 @@ function AppContent() {
     <div style={{ width: '100%', maxWidth: '100vw', overflowX: 'hidden', minHeight: '100vh' }}>
       {!isAuthPage && <Navbar />}
       <main className={!isAuthPage ? "app-main with-navbar" : "app-main"}>
-      <Routes>
-        {/* Auth routes */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Dashboard />} />
-        {/* Resume builder flow */}
-        <Route path="/project-choice" element={<ProjectChoice />} />
-        <Route path="/templates/:resumeId" element={<TemplateSelect />} />
-        <Route path="/builder/:resumeId" element={<Editor />} />
-      </Routes>
+        <Routes>
+          {/* Auth routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Dashboard />} />
+          {/* Resume builder flow */}
+          <Route path="/project-choice" element={<ProjectChoice />} />
+          <Route path="/templates/:resumeId" element={<TemplateSelect />} />
+          <Route path="/builder/:resumeId" element={<Editor />} />
+        </Routes>
       </main>
     </div>
   );
@@ -45,7 +46,9 @@ function AppContent() {
 function App() {
   return (
     <BrowserRouter>
-      <AppContent />
+      <ResumeProvider>
+        <AppContent />
+      </ResumeProvider>
     </BrowserRouter>
   );
 }
