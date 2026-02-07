@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ResumePreview from "../components/resume/ResumePreview";
-import { setTemplate } from "../services/resumeService";
+import { setTemplate as saveTemplateToDb} from "../services/resumeService";
+import { useResume } from "./componenets/ResumeContext";
 
 const TEMPLATES = [
   {
@@ -25,9 +26,11 @@ export default function TemplateSelect() {
   const { resumeId } = useParams();
   const navigate = useNavigate();
   const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const {setTemplate, resumeData} = useResume();
 
   const handleContinue = async () => {
-    await setTemplate(resumeId, selectedTemplate);
+    await saveTemplateToDb(resumeId, selectedTemplate);
+    setTemplate(selectedTemplate);
     navigate(`/builder/${resumeId}`);
   };
 
@@ -73,7 +76,7 @@ export default function TemplateSelect() {
         {/* RIGHT: Live Preview */}
         <div className="preview-shell">
           <div className="preview-paper">
-            <ResumePreview template={selectedTemplate} />
+            <ResumePreview template={selectedTemplate} data={resumeData}/>
           </div>
         </div>
 

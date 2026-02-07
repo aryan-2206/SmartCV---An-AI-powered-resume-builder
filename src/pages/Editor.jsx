@@ -8,33 +8,15 @@ import EditorPanel from "./componenets/EditorPanel";
 import PreviewPanel from "./componenets/PreviewPanel";
 import "../App.css";
 import "./componenets/Editor.css";
+import { useResume } from "./componenets/ResumeContext";
 
 const Editor = () => {
 
     // resumeData = Resume data (Initially empty)
     // setResumeData = function for adding data
-    const [resumeData, setResumeData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-        location: "",
-        summary: "",
-        work: [{
-            jobTitle: "",
-            company: "",
-            workDesc: "",
-        }],
-        education: [{
-            institute: "",
-            degree: "",
-            details: "",
-        }],
-        projects: [{
-            project: "",
-            projectDesc: "",
-        }],
-        customSections: []
-    });
+    // useResume from ResumeContext file
+    const {resumeData, setResumeData} = useResume();
+    
 
     const previewRef = useRef();
 

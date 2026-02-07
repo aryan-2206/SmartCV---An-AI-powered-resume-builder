@@ -1,10 +1,10 @@
-import { previewResume } from "../../data/temp";
+// import { previewResume } from "../../data/temp";
 
 import JakesClassic from "./layouts/JakesClassic";
 import Modern from "./layouts/Modern";
 import Minimal from "./layouts/Minimal";
 
-export default function ResumePreview({ template }) {
+export default function ResumePreview({ template, data }) {
   // No template selected yet
   if (!template) {
     return (
@@ -14,21 +14,23 @@ export default function ResumePreview({ template }) {
     );
   }
 
+  const ResumeContent = data || {};
+
   // Decide which layout to render
   switch (template) {
     case "jakes-classic":
-      return <JakesClassic data={previewResume} />;
+      return <JakesClassic data={ResumeContent} />;
 
     case "modern":
-      return <Modern data={previewResume} />;
+      return <Modern data={ResumeContent} />;
 
     case "minimal":
-      return <Minimal data={previewResume} />;
+      return <Minimal data={ResumeContent} />;
 
     default:
       return (
         <div>
-          <p>Template not supported</p>
+          <p>Template "{template}" not supported</p>
         </div>
       );
   }
