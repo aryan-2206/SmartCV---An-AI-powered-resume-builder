@@ -3,14 +3,16 @@
 
 import { FaPen, FaPalette, FaArrowLeft, FaChartBar } from "react-icons/fa";
 import { IoSparklesSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+    const navigate = useNavigate();
     return (
         <aside className="sidebar">
             <nav className="sidebar-nav">
 
                 {/* Back button */}
-                <button className="sidebar-button">
+                <button className="sidebar-button back-btn" onClick={() => navigate("/")}>
                     <span className="sidebar-icon">
                         <FaArrowLeft></FaArrowLeft>
                     </span>
@@ -20,7 +22,7 @@ const Sidebar = () => {
                 </button>
 
                 {/*Edit Content button */}
-                <button className="sidebar-button">
+                <button className="sidebar-button active">
                     <span className="sidebar-icon">
                         <FaPen></FaPen>
                     </span>
@@ -30,7 +32,7 @@ const Sidebar = () => {
                 </button>
 
                 {/*Customize Template button */}
-                <button className="sidebar-button">
+                <button className="sidebar-button" onClick={() => navigate(-1)}>
                     <span className="sidebar-icon">
                         <FaPalette></FaPalette>
                     </span>
@@ -40,7 +42,7 @@ const Sidebar = () => {
                 </button>
 
                 {/*AI Mode button */}
-                <button className="sidebar-button">
+                <button className="sidebar-button ai-btn">
                     <span className="sidebar-icon">
                         <IoSparklesSharp></IoSparklesSharp>
                     </span>
