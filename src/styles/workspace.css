@@ -252,6 +252,7 @@
    PAGE HEADER
 ----------------------------------------- */
 .workspace-header {
+  text-align: center;
   margin-bottom: 3rem;
   width: 100%;
   max-width: 100%;
@@ -269,6 +270,8 @@
 }
 
 .workspace-header p {
+  margin-left: auto;
+  margin-right: auto;
   color: var(--text-muted);
   max-width: 700px;
   font-size: 1.1rem;
@@ -364,10 +367,49 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
   min-height: 0;
   /* max-height: calc(100vh - 250px); */
   overflow: hidden;
   box-sizing: border-box;
+}
+
+/* Template select: switch between template-only and sample-data preview */
+.preview-mode-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 100%;
+  align-self: stretch;
+  box-sizing: border-box;
+}
+
+.preview-mode-btn {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.preview-mode-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.preview-mode-btn.active {
+  background: var(--glow-cyan);
+  border-color: var(--glow-cyan);
+  color: #0f172a;
 }
 
 .preview-paper {
@@ -380,7 +422,9 @@
   flex: 1;
   min-height: 0;
   max-height: 100%;
-
+  width: 100%;
+  max-width: 720px;
+  box-sizing: border-box;
   box-shadow:
     0 20px 40px rgba(0,0,0,0.6);
 }
@@ -433,7 +477,8 @@
 
 .workspace-container {
   width: 100%;
-  max-width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
 .resume-grid {
@@ -446,8 +491,8 @@
 }
 
 .create-new-container {
-  width: 75%;
-  max-width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .resume-card {
@@ -461,6 +506,11 @@
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
+}
+
+.create-new-container .resume-card {
+  max-width: 800px;
+  width: 100%;
 }
 
 .resume-card::before {
