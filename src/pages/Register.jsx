@@ -45,7 +45,7 @@ const Register = () => {
       });
 
       alert("Account Created Successfully!");
-      navigate('/login');
+      navigate('/dashboard');
 
     } catch (error) {
       console.error("Error:", error);
@@ -74,7 +74,7 @@ const Register = () => {
           role: "user"
         });
       }
-      navigate('/login');
+      navigate('/dashboard');
 
     } catch (error) {
       if (error.code !== 'auth/popup-closed-by-user' && error.code !== 'auth/cancelled-popup-request') {

@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import Sidebar from "./componenets/Sidebar";
 import EditorPanel from "./componenets/EditorPanel";
 import PreviewPanel from "./componenets/PreviewPanel";
-import "./App.css";
+import "../App.css";
 import "./componenets/Editor.css";
 
 const Editor = () => {
@@ -46,7 +46,7 @@ const Editor = () => {
     }
 
     return (
-        <div className="page-wrapper">
+        <div className="editor-page-wrapper">
             <div className="editor-container">
                 <Sidebar></Sidebar>
                 <main className="main-layout">

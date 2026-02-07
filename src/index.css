@@ -24,6 +24,11 @@
   --text-muted: #94A3B8;
 }
 
+html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
@@ -33,7 +38,18 @@ body {
     radial-gradient(circle at 90% 10%, rgba(217, 119, 6, 0.05) 0%, transparent 40%);
   color: var(--text-main);
   min-height: 100vh;
+  overflow-x: hidden;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+
+/* Auth pages need centering */
+body.auth-page {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+* {
+  box-sizing: border-box;
 }
