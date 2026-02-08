@@ -145,10 +145,12 @@ export default function JakesClassic({ data }) {
 }
 
 const sectionTitle = {
+  fontFamily: "Times New Roman, serif",
   fontSize: "14px",
   fontWeight: "bold",
   marginBottom: "4px",
   marginTop: "8px",
   borderBottom: "1px solid black",
   paddingBottom: "2px",
+  color: "#000",
 };
