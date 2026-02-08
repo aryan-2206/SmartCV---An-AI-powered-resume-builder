@@ -65,7 +65,7 @@ const EditorPanel = ({ resumeData = {}, setResumeData, addCustomSection }) => {
                 </div>
                 <input type="text" placeholder="Location (City, Country)" value={resumeData.location || ""} onChange={(e) => handleChange("location", e.target.value)} />
                 <div className="input-grid">
-                    <input type="text" placeholder="LinkedIn URL" value={resumeData.linkedIn || ""} onChange={(e) => handleChange("linkedIn", e.target.value)} />
+                    <input type="text" placeholder="LinkedIn URL" value={resumeData.linkedin || ""} onChange={(e) => handleChange("linkedin", e.target.value)} />
                     <input type="text" placeholder="GitHub URL" value={resumeData.github || ""} onChange={(e) => handleChange("github", e.target.value)} />
                 </div>
 

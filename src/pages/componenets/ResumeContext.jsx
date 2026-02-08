@@ -13,7 +13,7 @@ export const ResumeProvider = ({children}) => {
         email: "Email",
         phone: "Phone",
         location: "Location (City, Country)",
-        linkedIn: "LinkedIn URL",
+        linkedin: "LinkedIn URL",
         github: "GitHub URL",
         summary: "This is a professional summary that highlights key acheivements and career goals.",
         experience: [{
@@ -38,7 +38,7 @@ export const ResumeProvider = ({children}) => {
             tech: ['Tech stack used'],
         }],
         skills: ['Your skills'],
-        certifications: ['Your sertifications'],
+        certifications: ['Your certifications'],
         customSections: []
     });
 
