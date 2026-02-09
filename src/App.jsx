@@ -3,13 +3,13 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./pages/dashboard/Navbar";
 import Login from "./pages/login";
 import Register from "./pages/Register";
-import ProjectChoice from "./pages/ProjectChoice";
-import TemplateSelect from "./pages/TemplateSelect";
+import ProjectChoice from "./pages/ProjectChoice/ProjectChoice";
+import TemplateSelect from "./pages/TemplateSelect/TemplateSelect";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { ResumeProvider } from "./pages/componenets/ResumeContext";
 import Editor from "./pages/Editor";
 
-import "./styles/workspace.css";
+import "./styles/shared/app.css";
 
 function AppContent() {
   const location = useLocation();

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getResumes, createResume } from "../services/resumeService";
+import { getResumes, createResume } from "../../services/resumeService";
+import "./ProjectChoice.css";
+import "../../styles/shared/workspace.css";
 
 export default function ProjectChoice() {
   const [resumes, setResumes] = useState([]);

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ResumePreview from "../components/resume/ResumePreview";
-import { setTemplate as saveTemplateToDb} from "../services/resumeService";
-import { useResume } from "./componenets/ResumeContext";
-import { previewResume } from "../data/temp";
+import ResumePreview from "../../components/resume/ResumePreview";
+import { setTemplate as saveTemplateToDb} from "../../services/resumeService";
+import { useResume } from "../componenets/ResumeContext";
+import { previewResume } from "../../data/temp";
+import "./TemplateSelect.css";
+import "../../styles/shared/workspace.css";
 
 /** Minimal data so template shows structure/headings only (no sample content) */
 const templateOnlyData = {
@@ -27,7 +29,7 @@ const PREVIEW_MODE = { TEMPLATE_ONLY: "template-only", SAMPLE_DATA: "sample-data
 const TEMPLATES = [
   {
     id: "jakes-classic",
-    name: "Jake’s Resume",
+    name: "Jake's Resume",
     desc: "Industry-standard academic & SWE resume",
   },
   {

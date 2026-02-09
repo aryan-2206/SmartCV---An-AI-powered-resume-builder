@@ -1,0 +1,201 @@
+/* =========================================
+   PROJECT CHOICE PAGE STYLES
+   ========================================= */
+
+.workspace-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.resume-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+  width: 100%;
+  max-width: 100%;
+}
+
+.create-new-container {
+  display: flex;
+  justify-content: center;
+}
+
+.resume-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.create-new-container .resume-card {
+  max-width: 800px;
+  width: 100%;
+}
+
+.resume-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--glow-cyan), var(--glow-gold));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.resume-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(6, 182, 212, 0.3);
+  box-shadow: 
+    0 8px 24px rgba(6, 182, 212, 0.15),
+    0 0 0 1px rgba(6, 182, 212, 0.1);
+}
+
+.resume-card:hover::before {
+  opacity: 1;
+}
+
+.resume-card h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
+
+.resume-card p {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Create New Card */
+.create-card {
+  border: 2px dashed rgba(255,255,255,0.15);
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.03), rgba(217, 119, 6, 0.03));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 260px;
+  max-width: 100%;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.create-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.create-card:hover::before {
+  left: 100%;
+}
+
+.create-card:hover {
+  border-color: var(--glow-cyan);
+  border-style: solid;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.08), rgba(217, 119, 6, 0.05));
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 
+    0 12px 32px rgba(6, 182, 212, 0.25),
+    0 0 0 1px rgba(6, 182, 212, 0.2);
+}
+
+.create-card span {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--glow-cyan);
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.create-card:hover span {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.create-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.create-card p {
+  font-size: 0.95rem;
+}
+
+/* Divider */
+.workspace-divider {
+  text-align: center;
+  margin: 3rem 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.workspace-divider::before,
+.workspace-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 45%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.workspace-divider::before {
+  left: 0;
+}
+
+.workspace-divider::after {
+  right: 0;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--text-muted);
+  width: 100%;
+  max-width: 100%;
+}
+
+.empty-state-icon {
+  font-size: 4rem;
+  margin-bottom: 1.5rem;
+  opacity: 0.6;
+  filter: grayscale(0.3);
+}
+
+.empty-state h3 {
+  color: var(--text-main);
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
