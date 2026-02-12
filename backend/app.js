@@ -14,20 +14,20 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-  })
+  }),
 );
 
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Atlas connected"))
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
   res.send("SmartCV backend running");
 });
-
 
 const PORT = process.env.PORT || 5000;
 
