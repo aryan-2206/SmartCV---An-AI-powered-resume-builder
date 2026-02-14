@@ -84,26 +84,58 @@ const EditorPanel = ({ resumeData = {}, setResumeData, addCustomSection }) => {
         </button>
       </div>
 
-      {/* PERSONAL INFO */}
+      {/* PERSONAL INFO: Name, Phone, Email, LinkedIn, GitHub */}
       <SectionCard title={"Personal Information"}>
-        <div className="input-group">
+        <input
+          type="text"
+          placeholder="Full Name"
+          value={resumeData.name || ""}
+          onChange={(e) => handleChange("name", e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Professional Title (optional)"
+          value={resumeData.title || ""}
+          onChange={(e) => handleChange("title", e.target.value)}
+        />
+        <div className="input-grid">
           <input
             type="text"
-            placeholder="Full Name"
-            value={resumeData.name || ""}
-            onChange={(e) => handleChange("name", e.target.value)}
+            placeholder="Phone"
+            value={resumeData.phone || ""}
+            onChange={(e) => handleChange("phone", e.target.value)}
           />
           <input
-            type="text"
-            placeholder="Professional Title (e.g. Software Engineer)"
-            value={resumeData.title || ""}
-            onChange={(e) => handleChange("title", e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={resumeData.email || ""}
+            onChange={(e) => handleChange("email", e.target.value)}
           />
         </div>
+        <div className="input-grid">
+          <input
+            type="text"
+            placeholder="LinkedIn URL"
+            value={resumeData.linkedin || ""}
+            onChange={(e) => handleChange("linkedin", e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="GitHub URL"
+            value={resumeData.github || ""}
+            onChange={(e) => handleChange("github", e.target.value)}
+          />
+        </div>
+        <input
+          type="text"
+          placeholder="Location (City, Country) — optional"
+          value={resumeData.location || ""}
+          onChange={(e) => handleChange("location", e.target.value)}
+        />
       </SectionCard>
 
-      {/* SUMMARY WITH AI */}
-      <SectionCard title={"Professional Summary"}>
+      {/* SUMMARY */}
+      <SectionCard title={"Summary"}>
         <div className="ai-container">
           <button
             className="ai-polish-btn"
@@ -120,6 +152,55 @@ const EditorPanel = ({ resumeData = {}, setResumeData, addCustomSection }) => {
             onChange={(e) => handleChange("summary", e.target.value)}
           />
         </div>
+      </SectionCard>
+
+      {/* EDUCATION */}
+      <SectionCard title={"Education"}>
+        {resumeData.education?.map((edu, i) => (
+          <div key={i} className="editor-nested-card">
+            <input
+              type="text"
+              placeholder="Institute"
+              value={edu.institute || ""}
+              onChange={(e) => updateArrayField("education", i, "institute", e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Degree"
+              value={edu.degree || ""}
+              onChange={(e) => updateArrayField("education", i, "degree", e.target.value)}
+            />
+            <div className="input-grid">
+              <input
+                type="text"
+                placeholder="Location"
+                value={edu.location || ""}
+                onChange={(e) => updateArrayField("education", i, "location", e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Year"
+                value={edu.year || ""}
+                onChange={(e) => updateArrayField("education", i, "year", e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="GPA (optional)"
+                value={edu.gpa || ""}
+                onChange={(e) => updateArrayField("education", i, "gpa", e.target.value)}
+              />
+            </div>
+            <button className="remove-btn" onClick={() => removeItem("education", i)}>Remove</button>
+          </div>
+        ))}
+        <button
+          className="add-btn"
+          onClick={() =>
+            addItem("education", { institute: "", degree: "", location: "", year: "", gpa: "", honors: "" })
+          }
+        >
+          + Add Education
+        </button>
       </SectionCard>
 
       {/* EXPERIENCE WITH AI */}
@@ -142,6 +223,24 @@ const EditorPanel = ({ resumeData = {}, setResumeData, addCustomSection }) => {
                 updateArrayField("experience", i, "company", e.target.value)
               }
             />
+            <div className="input-grid">
+              <input
+                type="text"
+                placeholder="Location"
+                value={job.location || ""}
+                onChange={(e) =>
+                  updateArrayField("experience", i, "location", e.target.value)
+                }
+              />
+              <input
+                type="text"
+                placeholder="Year (e.g. 2021 – Present)"
+                value={job.year || ""}
+                onChange={(e) =>
+                  updateArrayField("experience", i, "year", e.target.value)
+                }
+              />
+            </div>
 
             <div className="ai-container" style={{ marginTop: "10px" }}>
               <button
@@ -180,10 +279,54 @@ const EditorPanel = ({ resumeData = {}, setResumeData, addCustomSection }) => {
         <button
           className="add-btn"
           onClick={() =>
-            addItem("experience", { role: "", company: "", description: [] })
+            addItem("experience", { role: "", company: "", location: "", year: "", description: [] })
           }
         >
           + Add Experience
+        </button>
+      </SectionCard>
+
+      {/* PROJECTS */}
+      <SectionCard title={"Projects"}>
+        {resumeData.projects?.map((proj, i) => (
+          <div key={i} className="editor-nested-card">
+            <input
+              type="text"
+              placeholder="Project Name"
+              value={proj.name || ""}
+              onChange={(e) => updateArrayField("projects", i, "name", e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Year"
+              value={proj.year || ""}
+              onChange={(e) => updateArrayField("projects", i, "year", e.target.value)}
+            />
+            <textarea
+              placeholder="Description"
+              value={proj.description || ""}
+              onChange={(e) => updateArrayField("projects", i, "description", e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Tech stack (comma separated)"
+              value={Array.isArray(proj.tech) ? proj.tech.join(", ") : ""}
+              onChange={(e) => {
+                const updated = [...(resumeData.projects || [])];
+                updated[i].tech = e.target.value.split(",").map((s) => s.trim()).filter(Boolean);
+                setResumeData({ ...resumeData, projects: updated });
+              }}
+            />
+            <button className="remove-btn" onClick={() => removeItem("projects", i)}>Remove</button>
+          </div>
+        ))}
+        <button
+          className="add-btn"
+          onClick={() =>
+            addItem("projects", { name: "", year: "", description: "", tech: [] })
+          }
+        >
+          + Add Project
         </button>
       </SectionCard>
 
@@ -195,11 +338,107 @@ const EditorPanel = ({ resumeData = {}, setResumeData, addCustomSection }) => {
           onChange={(e) =>
             handleChange(
               "skills",
-              e.target.value.split(",").map((s) => s.trim()),
+              e.target.value.split(",").map((s) => s.trim()).filter(Boolean),
             )
           }
         />
       </SectionCard>
+
+      {/* ACHIEVEMENTS */}
+      <SectionCard title={"Achievements"}>
+        {resumeData.achievements?.map((ach, i) => (
+          <div key={i} className="editor-nested-card">
+            <input
+              type="text"
+              placeholder="Title / Award"
+              value={ach.title || ""}
+              onChange={(e) => updateArrayField("achievements", i, "title", e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Year (optional)"
+              value={ach.year || ""}
+              onChange={(e) => updateArrayField("achievements", i, "year", e.target.value)}
+            />
+            <textarea
+              placeholder="Description"
+              value={ach.description || ""}
+              onChange={(e) => updateArrayField("achievements", i, "description", e.target.value)}
+            />
+            <button className="remove-btn" onClick={() => removeItem("achievements", i)}>Remove</button>
+          </div>
+        ))}
+        <button
+          className="add-btn"
+          onClick={() =>
+            addItem("achievements", { title: "", description: "", year: "" })
+          }
+        >
+          + Add Achievement
+        </button>
+      </SectionCard>
+
+      {/* CERTIFICATIONS (optional) */}
+      <SectionCard title={"Certifications (optional)"}>
+        {resumeData.certifications?.map((cert, i) => (
+          <div key={i} className="editor-nested-card">
+            <input
+              type="text"
+              placeholder="Certification Name"
+              value={cert.name || ""}
+              onChange={(e) => updateArrayField("certifications", i, "name", e.target.value)}
+            />
+            <div className="input-grid">
+              <input
+                type="text"
+                placeholder="Issuer"
+                value={cert.issuer || ""}
+                onChange={(e) => updateArrayField("certifications", i, "issuer", e.target.value)}
+              />
+              <input
+                type="text"
+                placeholder="Year"
+                value={cert.year || ""}
+                onChange={(e) => updateArrayField("certifications", i, "year", e.target.value)}
+              />
+            </div>
+            <button className="remove-btn" onClick={() => removeItem("certifications", i)}>Remove</button>
+          </div>
+        ))}
+        <button
+          className="add-btn"
+          onClick={() =>
+            addItem("certifications", { name: "", issuer: "", year: "" })
+          }
+        >
+          + Add Certification
+        </button>
+      </SectionCard>
+
+      {/* CUSTOM SECTIONS */}
+      {resumeData.customSections?.map((sec, secIndex) => (
+        <SectionCard key={secIndex} title={sec.title || "New Section"}>
+          <input
+            type="text"
+            placeholder="Section Title"
+            value={sec.title || ""}
+            onChange={(e) => updateArrayField("customSections", secIndex, "title", e.target.value)}
+          />
+          {sec.items?.map((item, itemIndex) => (
+            <textarea
+              key={itemIndex}
+              placeholder="Enter details"
+              value={item}
+              onChange={(e) => {
+                const updated = [...(resumeData.customSections || [])];
+                updated[secIndex].items[itemIndex] = e.target.value;
+                setResumeData({ ...resumeData, customSections: updated });
+              }}
+            />
+          ))}
+          <button className="remove-btn" onClick={() => removeItem("customSections", secIndex)}>Remove Section</button>
+        </SectionCard>
+      ))}
     </section>
   );
 };

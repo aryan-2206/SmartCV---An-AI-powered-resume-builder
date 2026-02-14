@@ -69,14 +69,14 @@
 .preview-shell {
   flex: 1;
   min-width: 0;
-  background: rgba(0, 0, 0, 0.35);
+  background: #1e293b; /* Single consistent dark slate so paper stands out */
   border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  max-height: calc(100vh - 200px); /* Keeps it from pushing footer off screen */
+  max-height: calc(100vh - 200px);
 }
 
 .preview-mode-tabs {
@@ -105,20 +105,21 @@
   box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
 }
 
-/* The actual "Paper" */
+/* The actual "Paper" - full-bleed white so no half backgrounds */
 .preview-paper {
-  background: white;
-  color: black;
-  padding: 3rem; /* Standard resume padding */
+  background: #ffffff;
+  color: #111;
+  padding: 3rem;
   border-radius: 4px;
   width: 100%;
   max-width: 700px;
   height: auto;
-  min-height: 900px; /* Mimics A4 ratio */
+  min-height: 900px;
   box-sizing: border-box;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-  overflow-y: hidden; /* It's a preview, we don't want internal scrolls */
-  transform: scale(0.9); /* Slight scale down to fit screens better */
+  overflow-y: auto;
+  overflow-x: hidden;
+  transform: scale(0.9);
   transform-origin: top center;
 }
 

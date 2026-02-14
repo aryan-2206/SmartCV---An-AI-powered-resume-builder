@@ -9,28 +9,48 @@ export default function Minimal({ data }) {
         padding: "0 4px",
       }}
     >
-      {/* HEADER */}
+      {/* NAME */}
       <div style={{ marginBottom: "12px" }}>
-        <strong style={{ fontSize: "16px", fontWeight: "bold" }}>{data.name}</strong>
-        <div style={{ fontSize: "11px", marginTop: "2px" }}>{data.title}</div>
-        {(data.email || data.phone || data.location) && (
-          <div style={{ fontSize: "10px", color: "#333", marginTop: "4px" }}>
-            {data.email && <span>{data.email}</span>}
-            {data.email && data.phone && <span> • </span>}
-            {data.phone && <span>{data.phone}</span>}
-            {data.location && (data.email || data.phone) && <span> • </span>}
-            {data.location && <span>{data.location}</span>}
-          </div>
+        <strong style={{ fontSize: "16px", fontWeight: "bold" }}>{data.name || "Your Name"}</strong>
+        {data.title && (
+          <div style={{ fontSize: "11px", marginTop: "2px", color: "#666" }}>{data.title}</div>
+        )}
+        {/* Contact: phone, email, linkedin, github */}
+        <div style={{ fontSize: "10px", color: "#666", marginTop: "4px" }}>
+          {data.phone || "Phone"} • {data.email || "Email"} • {data.linkedin || "LinkedIn"} • {data.github || "GitHub"}
+        </div>
+        {data.location && (
+          <div style={{ fontSize: "10px", color: "#666", marginTop: "2px" }}>{data.location}</div>
         )}
       </div>
 
       {/* SUMMARY */}
-      {data.summary && (
+      <section style={{ marginBottom: "10px" }}>
+        <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+          SUMMARY
+        </strong>
+        <p style={{ margin: "4px 0", textAlign: "justify", color: data.summary ? "#000" : "#666" }}>{data.summary || "Brief professional summary..."}</p>
+      </section>
+
+      {/* EDUCATION */}
+      {data.education && data.education.length > 0 && (
         <section style={{ marginBottom: "10px" }}>
           <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-            SUMMARY
+            EDUCATION
           </strong>
-          <p style={{ margin: "4px 0", textAlign: "justify" }}>{data.summary}</p>
+          {data.education.map((edu, i) => (
+            <div key={i} style={{ marginTop: "4px" }}>
+              <div>
+                <strong>{edu.degree || "Degree"}</strong>
+                {(edu.institute || edu.location) && <span>, {edu.institute || "Institute"} {edu.location ? `— ${edu.location}` : ""}</span>}
+              </div>
+              <div style={{ fontSize: "10px", color: "#555" }}>
+                {edu.year || "Year"}
+                {edu.gpa && <span> | GPA: {edu.gpa}</span>}
+                {edu.honors && <span> | {edu.honors}</span>}
+              </div>
+            </div>
+          ))}
         </section>
       )}
 
@@ -43,9 +63,8 @@ export default function Minimal({ data }) {
           {data.experience.map((exp, i) => (
             <div key={i} style={{ marginTop: "6px" }}>
               <div style={{ marginBottom: "2px" }}>
-                <strong>{exp.role}</strong>
-                {exp.company && <span>, {exp.company}</span>}
-                {exp.location && <span> — {exp.location}</span>}
+                <strong>{exp.role || "Role"}</strong>
+                {(exp.company || exp.location) && <span>, {exp.company || "Company"} {exp.location ? `— ${exp.location}` : ""}</span>}
                 {exp.year && <span> ({exp.year})</span>}
               </div>
               {exp.description && Array.isArray(exp.description) && (
@@ -62,39 +81,6 @@ export default function Minimal({ data }) {
         </section>
       )}
 
-      {/* EDUCATION */}
-      {data.education && data.education.length > 0 && (
-        <section style={{ marginBottom: "10px" }}>
-          <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-            EDUCATION
-          </strong>
-          {data.education.map((edu, i) => (
-            <div key={i} style={{ marginTop: "4px" }}>
-              <div>
-                <strong>{edu.degree}</strong>
-                {edu.institute && <span>, {edu.institute}</span>}
-                {edu.location && <span> — {edu.location}</span>}
-              </div>
-              <div style={{ fontSize: "10px", color: "#555" }}>
-                {edu.year}
-                {edu.gpa && <span> | GPA: {edu.gpa}</span>}
-                {edu.honors && <span> | {edu.honors}</span>}
-              </div>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {/* SKILLS */}
-      {data.skills && data.skills.length > 0 && (
-        <section style={{ marginBottom: "10px" }}>
-          <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-            SKILLS
-          </strong>
-          <p style={{ margin: "4px 0" }}>{data.skills.join(", ")}</p>
-        </section>
-      )}
-
       {/* PROJECTS */}
       {data.projects && data.projects.length > 0 && (
         <section style={{ marginBottom: "10px" }}>
@@ -104,14 +90,12 @@ export default function Minimal({ data }) {
           {data.projects.map((proj, i) => (
             <div key={i} style={{ marginTop: "4px" }}>
               <div>
-                <strong>{proj.name}</strong>
+                <strong>{proj.name || "Project Name"}</strong>
                 {proj.year && <span> ({proj.year})</span>}
               </div>
-              {proj.description && (
-                <div style={{ fontSize: "10px", marginTop: "2px" }}>
-                  {proj.description}
-                </div>
-              )}
+              <div style={{ fontSize: "10px", marginTop: "2px", color: proj.description ? "#000" : "#666" }}>
+                {proj.description || "Description"}
+              </div>
               {proj.tech && proj.tech.length > 0 && (
                 <div style={{ fontSize: "9px", color: "#666", marginTop: "2px", fontStyle: "italic" }}>
                   {proj.tech.join(", ")}
@@ -122,19 +106,54 @@ export default function Minimal({ data }) {
         </section>
       )}
 
-      {/* CERTIFICATIONS */}
-      {data.certifications && data.certifications.length > 0 && (
+      {/* SKILLS */}
+      <section style={{ marginBottom: "10px" }}>
+        <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+          SKILLS
+        </strong>
+        <p style={{ margin: "4px 0", color: (data.skills && data.skills.length) ? "#000" : "#666" }}>
+          {(data.skills && data.skills.length) ? data.skills.join(", ") : "e.g. React, Node.js, Python"}
+        </p>
+      </section>
+
+      {/* ACHIEVEMENTS */}
+      {data.achievements && data.achievements.length > 0 && data.achievements.some(a => a.title || a.description) && (
+        <section style={{ marginBottom: "10px" }}>
+          <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            ACHIEVEMENTS
+          </strong>
+          {data.achievements.map((ach, i) => (
+            (ach.title || ach.description) && (
+              <div key={i} style={{ marginTop: "4px" }}>
+                <strong>{ach.title}</strong>
+                {ach.year && <span> ({ach.year})</span>}
+                {ach.description && <div style={{ fontSize: "10px", marginTop: "2px" }}>{ach.description}</div>}
+              </div>
+            )
+          ))}
+        </section>
+      )}
+
+      {/* CERTIFICATIONS (optional) */}
+      {(data.certifications && data.certifications.length > 0 && data.certifications.some(c => c.name || c.issuer || c.year)) ? (
         <section>
           <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
             CERTIFICATIONS
           </strong>
           {data.certifications.map((cert, i) => (
             <div key={i} style={{ marginTop: "4px" }}>
-              <strong>{cert.name}</strong>
+              <strong>{cert.name || "Certification"}</strong>
               {cert.issuer && <span>, {cert.issuer}</span>}
               {cert.year && <span> ({cert.year})</span>}
             </div>
           ))}
+        </section>
+      ) : (
+        <section>
+          <strong style={{ fontSize: "11px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            CERTIFICATIONS <span style={{ fontSize: "9px", fontWeight: "normal", color: "#666" }}>(optional)</span>
+          </strong>
+          <div style={{ marginTop: "4px", color: "#666", fontSize: "10px" }}>Name, Issuer, Year</div>
         </section>
       )}
     </div>
