@@ -78,6 +78,11 @@ export const previewResume = {
     }
   ],
 
+  achievements: [
+    { title: "Hackathon Winner", description: "First place in company-wide hackathon", year: "2023" },
+    { title: "Spotlight Award", description: "Recognition for outstanding performance", year: "2022" }
+  ],
+
   certifications: [
     {
       name: "AWS Certified Solutions Architect",

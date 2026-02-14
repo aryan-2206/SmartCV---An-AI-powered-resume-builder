@@ -25,7 +25,8 @@ const templateOnlyData = {
   ],
   skills: [],
   projects: [{ name: "", description: "", tech: [], year: "" }],
-  certifications: [],
+  achievements: [{ title: "", description: "", year: "" }],
+  certifications: [{ name: "", issuer: "", year: "" }],
 };
 
 const PREVIEW_MODE = {
@@ -56,18 +57,15 @@ export default function TemplateSelect() {
   const navigate = useNavigate();
   const [selectedTemplate, setSelectedTemplate] = useState("jakes-classic");
   const [previewMode, setPreviewMode] = useState(PREVIEW_MODE.SAMPLE_DATA);
-  const { setResumeData } = useResume();
+  const { setTemplate } = useResume();
 
   const handleContinue = async () => {
     try {
-      // 1. Update the template field for this specific resume in MongoDB
+      // 1. Update the template field for this specific resume in MongoDB (if API available)
       await updateResume(resumeId, { template: selectedTemplate });
 
-      // 2. Update local Context state so the Editor is in sync
-      setResumeData((prev) => ({
-        ...prev,
-        template: selectedTemplate,
-      }));
+      // 2. Update local Context so the Editor preview uses the selected template
+      setTemplate(selectedTemplate);
 
       // 3. Move to the main Editor workspace
       navigate(`/builder/${resumeId}`);
