@@ -21,8 +21,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      /\.vercel\.app$/,
-      "https://smart-cv-an-ai-powered-resume-build.vercel.app"
+      "https://smart-cv-an-ai-powered-resume-build.vercel.app",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
