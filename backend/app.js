@@ -30,7 +30,7 @@ app.use(
 );
 
 // Route Middlewares
-app.use("/auth", authRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/resumes", resumeRoutes);
 app.use("/api/ai", aiRoutes); // Commented out until you are ready for the Gemini part
 
