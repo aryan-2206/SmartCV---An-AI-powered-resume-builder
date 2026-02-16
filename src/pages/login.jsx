@@ -3,7 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_BASE_URL = rawUrl.endsWith("/") ? rawUrl.slice(0, -1) : rawUrl;
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
