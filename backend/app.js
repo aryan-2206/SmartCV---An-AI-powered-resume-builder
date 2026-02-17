@@ -21,7 +21,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "smartcv-bhxfqkklh-dhruv-lads-projects-49304603.vercel.app",
+      "https://smartcv-bhxfqkklh-dhruv-lads-projects-49304603.vercel.app",
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
