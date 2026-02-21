@@ -32,7 +32,8 @@ router.post("/register", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "None",
     });
 
     res.status(201).json({
@@ -64,7 +65,8 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "lax",
+      secure: true,
+      sameSite: "None",
     });
 
     res.json({
@@ -79,7 +81,11 @@ router.post("/login", async (req, res) => {
 
 /* LOGOUT */
 router.post("/logout", (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
   res.json({ message: "Logged out" });
 });
 

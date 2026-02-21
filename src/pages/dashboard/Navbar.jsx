@@ -4,7 +4,8 @@ import axios from "axios";
 import { LogOut } from "lucide-react";
 import "./dashboard.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE_URL = rawUrl.endsWith("/") ? rawUrl.slice(0, -1) : rawUrl;
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Navbar = () => {
 
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/auth/me`, {
+        const res = await axios.get(`${BASE_URL}/api/auth/me`, {
           withCredentials: true,
         });
         if (isMounted) {
@@ -38,7 +39,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        `${API_BASE_URL}/api/auth/logout`,
+        `${BASE_URL}/api/auth/logout`,
         {},
         { withCredentials: true }
       );

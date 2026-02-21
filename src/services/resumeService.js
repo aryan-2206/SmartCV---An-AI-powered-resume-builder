@@ -5,8 +5,8 @@ import axios from "axios";
  * If the app is running on Vercel, it uses the VITE_API_URL variable you set.
  * If you are working locally, it falls back to http://localhost:5000.
  */
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
+const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const BASE_URL = rawUrl.endsWith("/") ? rawUrl.slice(0, -1) : rawUrl;
 // Set up axios instance for resumes
 const API = axios.create({
   baseURL: `${BASE_URL}/api/resumes`,
