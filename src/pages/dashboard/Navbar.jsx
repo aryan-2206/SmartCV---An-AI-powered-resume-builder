@@ -16,9 +16,19 @@ const Navbar = () => {
 
     const fetchUser = async () => {
       try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          if (isMounted) setUser(null);
+          return;
+        }
+
         const res = await axios.get(`${BASE_URL}/api/auth/me`, {
-          withCredentials: true,
-        });
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          });
+
         if (isMounted) {
           setUser(res.data);
         }
@@ -36,18 +46,10 @@ const Navbar = () => {
     };
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(
-        `${BASE_URL}/api/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
-      setUser(null);
-      navigate("/login");
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/login");
   };
 
   return (

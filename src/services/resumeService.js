@@ -10,9 +10,15 @@ const BASE_URL = rawUrl.endsWith("/") ? rawUrl.slice(0, -1) : rawUrl;
 // Set up axios instance for resumes
 const API = axios.create({
   baseURL: `${BASE_URL}/api/resumes`,
-  withCredentials: true,
 });
 
+API.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 // 1. Fetch real resumes from MongoDB for the Dashboard
 export const getResumes = async () => {
   try {

@@ -14,17 +14,30 @@ const CreateResumeBtn = () => {
 
   useEffect(() => {
     let isMounted = true;
+
     const fetchUser = async () => {
       try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          if (isMounted) setUser(null);
+          return;
+        }
+
         const res = await axios.get(`${API_BASE_URL}/api/auth/me`, {
-          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
+
         if (isMounted) setUser(res.data);
       } catch {
         if (isMounted) setUser(null);
       }
     };
+
     fetchUser();
+
     return () => {
       isMounted = false;
     };
