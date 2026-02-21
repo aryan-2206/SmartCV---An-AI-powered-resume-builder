@@ -8,7 +8,9 @@ import TemplateSelect from "./pages/TemplateSelect/TemplateSelect";
 import Dashboard from "./pages/dashboard/Dashboard";
 import { ResumeProvider } from "./pages/componenets/ResumeContext";
 import Editor from "./pages/Editor";
+import axios from "axios";
 
+axios.defaults.withCredentials = true;
 import "./styles/shared/app.css";
 
 function AppContent() {
