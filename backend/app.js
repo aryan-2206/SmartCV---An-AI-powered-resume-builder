@@ -17,11 +17,18 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 // Enable CORS for the Vite dev server and allow cookies (Crucial for Auth)
+const allowedOrigin = "https://smart-cv-an-ai-powered-resume-build.vercel.app";
 app.use(
   cors({
-    origin: "https://smart-cv-an-ai-powered-resume-build.vercel.app",
+    origin: function (origin, callback) {
+      if (!origin || origin === allowedOrigin) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
-  }),
+  })
 );
 
 // Route Middlewares
