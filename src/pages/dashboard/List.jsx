@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getResumes } from "../../services/resumeService";
 import "../../App.css";
 import axios from "axios";
+import { API_BASE_URL } from "../../config";
 // --- NEW ICON IMPORTS ---
 import { Search, FileText, Trash2, Clock } from "lucide-react";
 
@@ -38,7 +39,7 @@ const List = ({ searchQuery }) => {
       const token = localStorage.getItem("token");
 
       const response = await axios.delete(
-        `http://localhost:5000/api/resumes/${id}`,
+        `${API_BASE_URL}/api/resumes/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
