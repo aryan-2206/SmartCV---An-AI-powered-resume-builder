@@ -1,6 +1,8 @@
+// src/pages/Login.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext"; // ← NEW
 import "../App.css";
 
 const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -10,10 +12,10 @@ const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth(); // ← NEW: get the context setter
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,38 +23,21 @@ const Login = () => {
     try {
       const response = await axios.post(
         `${API_BASE_URL}/api/auth/login`,
-        {
-          email: formData.email,
-          password: formData.password,
-        },
-        { withCredentials: true },
+        { email: formData.email, password: formData.password },
+        { withCredentials: true }
       );
 
-      // DEBUG: Let's see exactly what the server sent
-      console.log("Full Server Response:", response.data);
-
-      // Check for 'token' or 'accessToken' or whatever the backend uses
-      const token = response.data.token || response.data.accessToken;
+      const { token, user } = response.data;
 
       if (token) {
-        localStorage.setItem("token", token);
-        console.log("Token saved to storage!");
-
-        // Short delay to ensure browser writes to storage before navigating
-        setTimeout(() => {
-          navigate("/");
-        }, 100);
+        login(user, token);
+        navigate("/");
       } else {
-        console.warn(
-          "Login successful, but NO TOKEN was found in response.data",
-        );
         alert("Login error: No token received from server.");
         setIsLoggingIn(false);
       }
     } catch (error) {
-      console.error("Axios Login Error:", error);
-      const message =
-        error.response?.data?.error || "Invalid Email or Password";
+      const message = error.response?.data?.error || "Invalid Email or Password";
       alert(message);
       setIsLoggingIn(false);
     }
@@ -67,21 +52,8 @@ const Login = () => {
         <h2>Welcome Back</h2>
 
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          />
-
+          <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
           <button type="submit" disabled={isLoggingIn}>
             {isLoggingIn ? "Signing In..." : "Login"}
           </button>

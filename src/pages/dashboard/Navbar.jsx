@@ -1,54 +1,16 @@
-import React, { useState, useEffect } from "react";
+// src/components/dashboard/Navbar.jsx
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { LogOut } from "lucide-react";
+import { useAuth } from "../../context/AuthContext"; // ← NEW
 import "./dashboard.css";
-
-const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
-const BASE_URL = rawUrl.endsWith("/") ? rawUrl.slice(0, -1) : rawUrl;
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          if (isMounted) setUser(null);
-          return;
-        }
-
-        const res = await axios.get(`${BASE_URL}/api/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          });
-
-        if (isMounted) {
-          setUser(res.data);
-        }
-      } catch {
-        if (isMounted) {
-          setUser(null);
-        }
-      }
-    };
-
-    fetchUser();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { user, logout } = useAuth(); // ← reads from shared context — always up to date
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
+    logout();          // clears localStorage + resets context user to null
     navigate("/login");
   };
 
@@ -68,8 +30,7 @@ const Navbar = () => {
             <div className="user-profile-wrapper">
               <div className="user-profile-nav">
                 <span className="user-name-label">
-                  {user.username ||
-                    (user.email ? user.email.split("@")[0] : "User")}
+                  {user.username || (user.email ? user.email.split("@")[0] : "User")}
                 </span>
                 <div className="profile-circle-container">
                   <span className="profile-initial">

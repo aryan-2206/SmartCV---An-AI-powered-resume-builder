@@ -1,6 +1,8 @@
+// src/pages/Register.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useAuth } from "../context/AuthContext"; // ← NEW
 import "../App.css";
 
 const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -13,13 +15,12 @@ const Register = () => {
     password: "",
     confirmPassword: "",
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth(); // ← NEW
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,7 +31,7 @@ const Register = () => {
 
     setIsSubmitting(true);
     try {
-      await axios.post(
+      const response = await axios.post(
         `${API_BASE_URL}/api/auth/register`,
         {
           username: formData.fullName,
@@ -40,10 +41,17 @@ const Register = () => {
         { withCredentials: true }
       );
 
-      alert("Account Created Successfully!");
-      navigate("/");
+      const { token, user } = response.data;
+
+      if (token) {
+        // update global auth state immediately after register too
+        login(user, token);
+        navigate("/");
+      } else {
+        alert("Account created! Please log in.");
+        navigate("/login");
+      }
     } catch (error) {
-      console.error("Error:", error);
       const message = error.response?.data?.error || error.message;
       alert(message);
       setIsSubmitting(false);
@@ -60,34 +68,10 @@ const Register = () => {
         <p className="subtitle">Start building your AI Resume</p>
 
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            name="fullName"
-            placeholder="Full Name"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            onChange={handleChange}
-            required
-          />
-          <input
-            type="password"
-            name="confirmPassword"
-            placeholder="Confirm Password"
-            onChange={handleChange}
-            required
-          />
+          <input type="text" name="fullName" placeholder="Full Name" onChange={handleChange} required />
+          <input type="email" name="email" placeholder="Email Address" onChange={handleChange} required />
+          <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
+          <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} required />
           <button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "Signing Up..." : "Sign Up"}
           </button>

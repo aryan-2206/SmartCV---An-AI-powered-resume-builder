@@ -1,47 +1,15 @@
-import React, { useState, useEffect } from "react";
+// src/components/dashboard/CreateResumeBtn.jsx
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { Plus, LogIn, Loader2 } from "lucide-react";
+import { useAuth } from "../../context/AuthContext"; // ← NEW
 import { createResume } from "../../services/resumeService";
 import "./dashboard.css";
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
-
 const CreateResumeBtn = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const { user, loading } = useAuth(); // ← reads from shared context — always up to date
   const [isCreating, setIsCreating] = useState(false);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          if (isMounted) setUser(null);
-          return;
-        }
-
-        const res = await axios.get(`${API_BASE_URL}/api/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (isMounted) setUser(res.data);
-      } catch {
-        if (isMounted) setUser(null);
-      }
-    };
-
-    fetchUser();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
 
   const handleCreateClick = async () => {
     if (!user || isCreating) return;
@@ -57,13 +25,10 @@ const CreateResumeBtn = () => {
         education: [],
         projects: [],
         skills: [],
-        customSections: [], // Added to match your EditorPanel expectations
+        customSections: [],
       };
 
       const savedResume = await createResume(newResumeData);
-
-      // We use the ID in the URL for the next steps to ensure it's never lost
-      // Route: /templates/:resumeId (as defined in your App.jsx)
       navigate(`/templates/${savedResume._id}`);
     } catch (error) {
       console.error("Creation failed:", error);
@@ -73,7 +38,9 @@ const CreateResumeBtn = () => {
     }
   };
 
-  const handleLoginClick = () => navigate("/login");
+  // While auth context is still verifying the stored token, show nothing
+  // (prevents the flash of "Login" button for already-logged-in users)
+  if (loading) return null;
 
   return (
     <div className="create-resume-wrapper">
@@ -95,7 +62,7 @@ const CreateResumeBtn = () => {
           <p className="login-first-text">
             Sign in or register to create and manage your resumes
           </p>
-          <button className="start-creating-btn" onClick={handleLoginClick}>
+          <button className="start-creating-btn" onClick={() => navigate("/login")}>
             <LogIn size={20} strokeWidth={2.5} />
             <span>Start creating</span>
           </button>
