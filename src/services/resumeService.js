@@ -1,28 +1,22 @@
+// src/services/resumeService.js
 import axios from "axios";
 
-/**
- * This variable checks your environment.
- * If the app is running on Vercel, it uses the VITE_API_URL variable you set.
- * If you are working locally, it falls back to http://localhost:5000.
- */
 const rawUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const BASE_URL = rawUrl.endsWith("/") ? rawUrl.slice(0, -1) : rawUrl;
-// Set up axios instance for resumes
-const API = axios.create({
-  baseURL: `${BASE_URL}/api/resumes`,
-});
 
-API.interceptors.request.use((config) => {
+// Helper — always grabs the latest token from storage
+const authHeaders = () => {
   const token = localStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-// 1. Fetch real resumes from MongoDB for the Dashboard
+  return { Authorization: `Bearer ${token}` };
+};
+
+// 1. Fetch all resumes for logged-in user
 export const getResumes = async () => {
   try {
-    const response = await API.get("/all");
+    const response = await axios.get(`${BASE_URL}/api/resumes/all`, {
+      headers: authHeaders(),
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching resumes:", error);
@@ -30,13 +24,20 @@ export const getResumes = async () => {
   }
 };
 
-// 2. Create and Save a new resume to MongoDB
+// 2. Create a new resume
 export const createResume = async (resumeData) => {
   try {
-    const response = await API.post("/save", resumeData);
-    return response.data; // Returns the new resume with its MongoDB _id
+    const response = await axios.post(
+      `${BASE_URL}/api/resumes/save`,
+      resumeData,
+      {
+        headers: authHeaders(),
+        withCredentials: true,
+      }
+    );
+    return response.data;
   } catch (error) {
-    console.error("Error creating resume:", error);
+    console.error("Error creating resume:", error.response?.status, error.response?.data);
     throw error;
   }
 };
@@ -44,7 +45,14 @@ export const createResume = async (resumeData) => {
 // 3. Update an existing resume
 export const updateResume = async (resumeId, resumeData) => {
   try {
-    const response = await API.put(`/update/${resumeId}`, resumeData);
+    const response = await axios.put(
+      `${BASE_URL}/api/resumes/update/${resumeId}`,
+      resumeData,
+      {
+        headers: authHeaders(),
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error("Error updating resume:", error);
@@ -52,10 +60,13 @@ export const updateResume = async (resumeId, resumeData) => {
   }
 };
 
-// 4. Fetch a SINGLE resume by ID
+// 4. Fetch a single resume by ID
 export const getResumeById = async (resumeId) => {
   try {
-    const response = await API.get(`/${resumeId}`);
+    const response = await axios.get(`${BASE_URL}/api/resumes/${resumeId}`, {
+      headers: authHeaders(),
+      withCredentials: true,
+    });
     return response.data;
   } catch (error) {
     console.error("Error fetching single resume:", error);
@@ -63,39 +74,34 @@ export const getResumeById = async (resumeId) => {
   }
 };
 
-// 5. AI Enhancement - Sends text to Gemini for professional polishing
-export const enhanceText = async (text, type) => {
+// 5. Delete a resume
+export const deleteResume = async (id) => {
   try {
-    // Uses the dynamic BASE_URL instead of hardcoded localhost
-    const response = await axios.post(
-      `${BASE_URL}/api/ai/enhance`,
-      { text, type },
-      { withCredentials: true },
-    );
-    return response.data.enhancedText;
+    const response = await axios.delete(`${BASE_URL}/api/resumes/${id}`, {
+      headers: authHeaders(),
+      withCredentials: true,
+    });
+    return response.data;
   } catch (error) {
-    console.error("AI Enhancement Error:", error);
+    console.error("Delete Error:", error);
     throw error;
   }
 };
 
-// 6. Delete Resume
-export const deleteResume = async (id) => {
+// 6. AI Enhancement
+export const enhanceText = async (text, type) => {
   try {
-    const token = localStorage.getItem("token");
-    // Updated to use the consistent BASE_URL and standard fetch pattern
-    const response = await fetch(`${BASE_URL}/api/resumes/${id}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) throw new Error("Failed to delete resume");
-    return await response.json();
+    const response = await axios.post(
+      `${BASE_URL}/api/ai/enhance`,
+      { text, type },
+      {
+        headers: authHeaders(),
+        withCredentials: true,
+      }
+    );
+    return response.data.enhancedText;
   } catch (error) {
-    console.error("Delete Error:", error);
+    console.error("AI Enhancement Error:", error);
     throw error;
   }
 };
